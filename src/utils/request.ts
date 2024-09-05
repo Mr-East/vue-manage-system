@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const service: AxiosInstance = axios.create({
+    // baseURL: 'http://192.168.180.132:5000',
     timeout: 5000
 });
 

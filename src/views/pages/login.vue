@@ -50,7 +50,7 @@ import { usePermissStore } from '@/store/permiss';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
-
+import service from '@/utils/request';
 interface LoginInfo {
     username: string;
     password: string;

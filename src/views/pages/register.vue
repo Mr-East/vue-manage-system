@@ -6,6 +6,15 @@
                 <div class="login-title">后台管理系统</div>
             </div>
             <el-form :model="param" :rules="rules" ref="register" size="large">
+                <el-form-item prop="customer_name">
+                    <el-input v-model="param.customer_name" placeholder="顾客名">
+                        <template #prepend>
+                            <el-icon>
+                                <Message />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
                 <el-form-item prop="username">
                     <el-input v-model="param.username" placeholder="用户名">
                         <template #prepend>
@@ -15,11 +24,38 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item prop="email">
-                    <el-input v-model="param.email" placeholder="邮箱">
+                <el-form-item prop="industry_classifiation">
+                    <el-input v-model="param.industry_classifiation" placeholder="行业名">
                         <template #prepend>
                             <el-icon>
-                                <Message />
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item prop="region_classification">
+                    <el-input v-model="param.region_classification" placeholder="隶属地 ">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item prop="external_rating">
+                    <el-input v-model="param.external_rating" placeholder="外部评级">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item >
+                    <el-input v-model="param.group" placeholder="组织">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
                             </el-icon>
                         </template>
                     </el-input>
@@ -52,13 +88,18 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { Register } from '@/types/user';
-
+import service from '@/utils/request';
 const router = useRouter();
 const param = reactive<Register>({
+    customer_name:'',
     username: '',
     password: '',
-    email: '',
-});
+    industry_classifiation:'',
+    region_classification:'',
+    external_rating:'',
+    credit_rating:'',
+    group:'',
+    });
 
 const rules: FormRules = {
     username: [
@@ -69,15 +110,25 @@ const rules: FormRules = {
         },
     ],
     password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-    email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+    customer_name: [{ required: true, message: '请输入顾客名', trigger: 'blur' }],
+    industry_classifiation: [{ required: true, message: '请输入行业', trigger: 'blur' }],
+    region_classification: [{ required: true, message: '请输入隶属地', trigger: 'blur' }],
+    external_rating: [{ required: true, message: '请输入外部评级', trigger: 'blur' }],
+    
 };
 const register = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
+
+    service.post('/api/register', param).then((res) => {
+                console.log(res);
+            
+            })
     formEl.validate((valid: boolean) => {
         if (valid) {
-            ElMessage.success('注册成功，请登录');
-            router.push('/login');
+            
+            // ElMessage.success('注册成功，请登录');
+            // router.push('/login');
         } else {
             return false;
         }
