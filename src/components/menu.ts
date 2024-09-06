@@ -218,4 +218,10 @@ export const menuData: Menus[] = [
             },
         ],
     },
+    {
+        id: '100',
+        icon: 'Setting',
+        index: '/default-report',
+        title: '违约认定',
+    },
 ];

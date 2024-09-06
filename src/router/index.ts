@@ -24,6 +24,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
             {
+                path:'/default-report',
+                name:'default-report',
+                meta:{
+                    title:'违约认定',
+                    permiss:'100',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-report.vue'),
+            },
+            {
                 path: '/system-user',
                 name: 'system-user',
                 meta: {
