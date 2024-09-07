@@ -29,9 +29,9 @@
             </template>
           </el-input>
         </el-form-item>
-        
+
         <!-- <div class="pwd-tips"> -->
-          <!-- <el-checkbox class="pwd-checkbox" v-model="checked" label="记住密码" />
+        <!-- <el-checkbox class="pwd-checkbox" v-model="checked" label="记住密码" />
           <el-link type="primary" @click="$router.push('/reset-pwd')">忘记密码</el-link>
         </div> -->
         <el-button
@@ -59,11 +59,12 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
 import service from "@/utils/request";
+import {useUserStore} from "@/store/user";
 interface LoginInfo {
   username: string;
   password: string;
 }
-
+const userStore = useUserStore();
 const lgStr = localStorage.getItem("login-param");
 const defParam = lgStr ? JSON.parse(lgStr) : null;
 const checked = ref(lgStr ? true : false);
@@ -90,27 +91,30 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
-        ElMessage.success("登录成功");
-            localStorage.setItem("vuems_name", param.username);
+      // ElMessage.success("登录成功");
+      //     localStorage.setItem("vuems_name", param.username);
+      //     const keys =
+      //       permiss.defaultList[param.username == "admin" ? "admin" : "user"];
+      //     permiss.handleSet(keys);
+      //     router.push("/");
+      service
+        .post("/api/login", param)
+        .then((res) => {
+          if (res.data.code == 200) {
+            ElMessage.success("登录成功");
+            localStorage.setItem("vuems_name", res.data.username);
+            localStorage.setItem("user_id", res.data.user_id);
             const keys =
               permiss.defaultList[param.username == "admin" ? "admin" : "user"];
-            permiss.handleSet(keys);    
+            permiss.handleSet(keys);
+           
+            userStore.username = res.data.username;
             router.push("/");
-    //   service
-    //     .post("/api/login", param)
-    //     .then((res) => {
-    //       if (res.data.code == 200) {
-    //         ElMessage.success("登录成功");
-    //         localStorage.setItem("vuems_name", param.username);
-    //         const keys =
-    //           permiss.defaultList[param.username == "admin" ? "admin" : "user"];
-    //         permiss.handleSet(keys);
-    //         router.push("/");
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       ElMessage.error(error.message);
-    //     });
+          }
+        })
+        .catch((error) => {
+          ElMessage.error(error.message);
+        });
 
       // if (checked.value) {
       //     localStorage.setItem('login-param', JSON.stringify(param));

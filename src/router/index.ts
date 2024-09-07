@@ -33,6 +33,51 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-report.vue'),
             },
             {
+                path:'/default-reason-management',
+                name:'default-reason-management',
+                meta:{
+                    title:'违约原因维护',
+                    permiss:'101',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-reason-management.vue'),
+            },
+            {
+                path:'/default-report-review',
+                name:'default-report-review',
+                meta:{
+                    title:'违约申请审核',
+                    permiss:'102',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-report-review.vue'),
+            },
+            {
+                path:'/default-respawn',
+                name:'default-respawn',
+                meta:{
+                    title:'违约重生',
+                    permiss:'103',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-respawn.vue'),
+            },
+            {
+                path:'/default-respawn-review',
+                name:'default-respawn-review',
+                meta:{
+                    title:'违约重生审核',
+                    permiss:'104',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-respawn-review.vue'),
+            },
+            {
+                path:'/default-search',
+                name:'default-search',
+                meta:{
+                    title:'违约记录查询',
+                    permiss:'105',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-search.vue'),
+            },
+            {
                 path: '/system-user',
                 name: 'system-user',
                 meta: {
