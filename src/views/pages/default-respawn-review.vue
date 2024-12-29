@@ -1,8 +1,8 @@
 <template>
   <div class="review-default-rebirth">
    
-    <el-card>
-      <h2>违约重生审核</h2>
+    <el-card shadow="hover">
+      <h2 style="margin-bottom: 20px">违约重生审核</h2>
 
       <!-- 显示待审核的违约重生记录 -->
       <el-table
@@ -19,14 +19,14 @@
           <template #default="scope">
             <el-button
               type="success"
-              icon="el-icon-check"
+              :icon="Check"
               @click="reviewRebirth(scope.row.id, 1)"
             >
               通过
             </el-button>
             <el-button
               type="danger"
-              icon="el-icon-close"
+              :icon="Close"
               @click="reviewRebirth(scope.row.id, 2)"
             >
               驳回
@@ -47,6 +47,7 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axios from "axios";
+import { Check,Close } from "@element-plus/icons-vue";
 // 违约重生记录列表
 const rebirths = ref([]);
 

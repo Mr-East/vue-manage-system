@@ -1,7 +1,7 @@
 <template>
   <div class="search-default-applications">
-    <el-card>
-      <h2>查询违约记录信息</h2>
+    <el-card shadow="hover"> 
+      <h2 style="margin-bottom: 20px">查询违约记录信息</h2>
 
       <!-- 查询输入框 -->
       <div class="search-section">
@@ -23,6 +23,7 @@
         class="mt-4"
       >
         <el-table-column prop="id" label="违约ID" width="80" />
+        <el-table-column prop="customer_id" label="用户ID" width="80" />
         <el-table-column prop="customer_name" label="客户名称" />
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="severity" label="严重性" />
@@ -31,8 +32,15 @@
         <el-table-column prop="audit_status" label="审核状态">
           <template #default="scope">
             <span v-if="scope.row.audit_status === 0">未审核</span>
-            <span v-else-if="scope.row.audit_status === 1">已通过</span>
-            <span v-else-if="scope.row.audit_status === 2">未通过</span>
+            <span v-else-if="scope.row.audit_status === 1" style="color: green;">已通过</span>
+            <span v-else-if="scope.row.audit_status === 2" style="color: red;">未通过</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="default_status" label="是否重生">
+          <template #default="scope">
+            <span v-if="scope.row.default_status === 0">未重生</span>
+            <span v-else-if="scope.row.default_status === 2"  style="color: green;">已重生</span>
+            <span v-else-if="scope.row.default_status === 1" style="color: red;">已拒绝</span>
           </template>
         </el-table-column>
       </el-table>

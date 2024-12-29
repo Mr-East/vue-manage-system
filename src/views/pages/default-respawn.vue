@@ -1,8 +1,8 @@
 <template>
   <div class="rebirth-default">
-    <DefaultSearch />
-    <el-card>
-      <h2>违约重生申请</h2>
+    
+    <el-card shadow="hover">
+      <h2 style="margin-bottom: 20px">违约重生申请</h2>
 
       <el-form :model="form" :rules="rules" ref="formRef" label-width="120px">
         <el-form-item label="客户ID" prop="customer_id">
@@ -10,15 +10,8 @@
         </el-form-item>
 
         <el-form-item label="违约ID" prop="default_id">
-          <el-select v-model="form.default_id" placeholder="请选择违约记录">
-            <el-option
-              v-for="defaultRecord in defaultRecords"
-              :key="defaultRecord.id"
-              :label="`违约记录ID: ${defaultRecord.id}`"
-              :value="defaultRecord.id"
-            >
-            </el-option>
-          </el-select>
+        
+          <el-input v-model="form.default_id" placeholder="请选择违约记录"></el-input>
         </el-form-item>
 
         <el-form-item label="备注" prop="remarks">
@@ -38,6 +31,7 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <DefaultSearch />
   </div>
 </template>
 
@@ -83,14 +77,17 @@ const rules = {
   default_id: [{ required: true, message: "违约记录不能为空", trigger: "change" }],
   remarks: [{ required: true, message: "备注不能为空", trigger: "blur" }],
 };
-
+const formRef = ref(null);
 // 提交违约重生申请
 const submitForm = () => {
-  const formRef = ref(null);
+
+
   formRef.value?.validate(async (valid) => {
     if (valid) {
       try {
-        const response = await axios.post("/default_rebirths", form);
+
+        
+        const response = await axios.post("http://127.0.0.1:5000/default_rebirths", form);
         ElMessage.success(response.data.message);
         resetForm();
       } catch (error) {
@@ -115,7 +112,7 @@ const fetchApprovedDefaults = async () => {
   }
 
   try {
-    const response = await axios.get("/default_rebirths", {
+    const response = await axios.get("http://127.0.0.1:5000/default_rebirths", {
       data: { customer_id: customerIdForSearch.value },
     });
 
@@ -133,7 +130,7 @@ const fetchApprovedDefaults = async () => {
 
 <style scoped>
 .rebirth-default {
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .mt-4 {

@@ -1,7 +1,7 @@
 <template>
   <div class="review-default-application">
-    <el-card>
-      <h2>违约认定审核</h2>
+    <el-card shadow="hover">
+      <h2 style="margin-bottom: 20px">违约认定审核</h2>
 
       <!-- 优化空状态下的界面 -->
       <el-empty
@@ -28,14 +28,14 @@
           <template #default="scope">
             <el-button
               type="success"
-              icon="el-icon-check"
+              :icon="Check"
               @click="reviewApplication(scope.row.id, 1)"
             >
               通过
             </el-button>
             <el-button
               type="danger"
-              icon="el-icon-close"
+              :icon="Close"
               @click="reviewApplication(scope.row.id, 2)"
             >
               拒绝
@@ -51,7 +51,7 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-
+import { Close,Check } from "@element-plus/icons-vue";
 // 违约申请列表
 const applications = ref([]);
 

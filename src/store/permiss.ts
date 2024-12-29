@@ -51,7 +51,7 @@ export const usePermissStore = defineStore('permiss', {
                 // '66',
                 // ''
             ],
-            user: ['0', '100'],
+            user: ['0', '100','5','105'],
         };
         const username = localStorage.getItem('vuems_name');
         console.log(username);

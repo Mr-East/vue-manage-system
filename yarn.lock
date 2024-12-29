@@ -540,13 +540,13 @@
   "resolved" "https://registry.npmmirror.com/echarts-wordcloud/-/echarts-wordcloud-2.1.0.tgz"
   "version" "2.1.0"
 
-"echarts@^5.0.1", "echarts@^5.4.1", "echarts@^5.5.0":
-  "integrity" "sha512-rNYnNCzqDAPCr4m/fqyUFv7fD9qIsd50S6GDFgO1DxZhncCsNsG7IfUlAlvZe5oSEQxtsjnHiUuppzccry93Xw=="
-  "resolved" "https://registry.npmmirror.com/echarts/-/echarts-5.5.0.tgz"
-  "version" "5.5.0"
+"echarts@^5.0.1", "echarts@^5.4.1", "echarts@^5.5.1":
+  "integrity" "sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA=="
+  "resolved" "https://registry.npmmirror.com/echarts/-/echarts-5.5.1.tgz"
+  "version" "5.5.1"
   dependencies:
     "tslib" "2.3.0"
-    "zrender" "5.5.0"
+    "zrender" "5.6.0"
 
 "element-plus@^2.6.3":
   "integrity" "sha512-WAiaFLavuWFxof9qwkC27jvkh9nRcNnB506g1vvJSiVaVqjCBWUFCIyJKeN11M1qcv2cS5VV5PfSLjTIkrw87A=="
@@ -1292,10 +1292,10 @@
   "resolved" "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.14.7.tgz"
   "version" "0.14.7"
 
-"vue-echarts@^6.6.9":
-  "integrity" "sha512-mojIq3ZvsjabeVmDthhAUDV8Kgf2Rr/X4lV4da7gEFd1fP05gcSJ0j7wa7HQkW5LlFmF2gdCJ8p4Chas6NNIQQ=="
-  "resolved" "https://registry.npmmirror.com/vue-echarts/-/vue-echarts-6.6.9.tgz"
-  "version" "6.6.9"
+"vue-echarts@^6.7.3":
+  "integrity" "sha512-vXLKpALFjbPphW9IfQPOVfb1KjGZ/f8qa/FZHi9lZIWzAnQC1DgnmEK3pJgEkyo6EP7UnX6Bv/V3Ke7p+qCNXA=="
+  "resolved" "https://registry.npmmirror.com/vue-echarts/-/vue-echarts-6.7.3.tgz"
+  "version" "6.7.3"
   dependencies:
     "resize-detector" "^0.3.0"
     "vue-demi" "^0.13.11"
@@ -1370,9 +1370,9 @@
     "wmf" "~1.0.1"
     "word" "~0.3.0"
 
-"zrender@5.5.0":
-  "integrity" "sha512-O3MilSi/9mwoovx77m6ROZM7sXShR/O/JIanvzTwjN3FORfLSr81PsUGd7jlaYOeds9d8tw82oP44+3YucVo+w=="
-  "resolved" "https://registry.npmmirror.com/zrender/-/zrender-5.5.0.tgz"
-  "version" "5.5.0"
+"zrender@5.6.0":
+  "integrity" "sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg=="
+  "resolved" "https://registry.npmmirror.com/zrender/-/zrender-5.6.0.tgz"
+  "version" "5.6.0"
   dependencies:
     "tslib" "2.3.0"

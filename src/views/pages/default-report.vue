@@ -39,7 +39,7 @@
     </div>
 
     <el-col :span="24">
-      <el-card>
+      <el-card shadow="hover">
         <p style="margin: 10px 0px">违约认定申请</p>
 
         <el-form :model="form" :rules="rules" ref="formRef" label-width="70px">
@@ -49,9 +49,9 @@
 
           <el-form-item label="严重性" prop="severity">
             <el-select v-model="form.severity" placeholder="请选择严重性">
-              <el-option label="高" value="high"></el-option>
-              <el-option label="中" value="medium"></el-option>
-              <el-option label="低" value="low"></el-option>
+              <el-option label="高" value="高"></el-option>
+              <el-option label="中" value="中"></el-option>
+              <el-option label="低" value="低"></el-option>
             </el-select>
           </el-form-item>
 
@@ -111,6 +111,7 @@ const searchCustomers = async () => {
     customers.value = response.data.customers;
   } catch (err) {
     console.error(err);
+    ElMessage.error(err.response?.data?.message || "搜索出错");
     if (err.response && err.response.status === 404) {
       Search_error.value = "未找到用户";
     } else {

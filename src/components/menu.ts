@@ -45,6 +45,7 @@ export const menuData: Menus[] = [
             },
         ],
     },
+    
     {
         id: '2',
         title: '组件',
@@ -121,38 +122,20 @@ export const menuData: Menus[] = [
             },
         ],
     },
-    {
-        id: '3',
-        title: '表格',
-        index: '3',
-        icon: 'Calendar',
-        children: [
-            {
-                id: '31',
-                pid: '3',
-                index: '/table',
-                title: '基础表格',
-            },
-            {
-                id: '32',
-                pid: '3',
-                index: '/table-editor',
-                title: '可编辑表格',
-            },
-            {
-                id: '33',
-                pid: '3',
-                index: '/import',
-                title: '导入Excel',
-            },
-            {
-                id: '34',
-                pid: '3',
-                index: '/export',
-                title: '导出Excel',
-            },
-        ],
-    },
+    // {
+    //     id: '5',
+    //     title: '表格',
+    //     index: '3',
+    //     icon: 'Calendar',
+    //     children: [
+    //         {
+    //             id: '105',
+    //             pid: '1',
+    //             index: '/default-search',
+    //             title: '违约记录查询',
+    //         },
+    //     ],
+    // },
     {
         id: '4',
         icon: 'PieChart',
@@ -176,9 +159,9 @@ export const menuData: Menus[] = [
     {
         id: '5',
         icon: 'Guide',
-        index: '/icon',
-        title: '图标',
-        permiss: '5',
+        index: '/default-search',
+        title: '违约记录查询',
+        permiss: '105',
     },
     {
         id: '7',

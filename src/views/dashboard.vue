@@ -1,11 +1,19 @@
 <template>
   <div>
     <template v-if="username === 'admin'">
+      <el-card shadow="always" :body-style="{ padding: '20px' }" style="margin-bottom: 20px;">
+        <template #header>
+          <div>
+            <span>{{ wenhou + "," + username }}</span>
+          </div>
+        </template>
+        欢迎来到违约客户管理系统
+      </el-card>
       <el-row :gutter="20" class="mgb20">
         <el-col :span="12">
           <el-card shadow="hover">
             <div class="card-header">
-              <p class="card-header-title">用户地区分布</p>
+              <p class="card-header-title">违约用户地区分布</p>
               <p class="card-header-desc">展示不同地区的用户数量</p>
             </div>
             <v-chart class="chart" :option="regionChartOption" />
@@ -14,113 +22,24 @@
         <el-col :span="12">
           <el-card shadow="hover">
             <div class="card-header">
-              <p class="card-header-title">行业统计</p>
+              <p class="card-header-title">违约用户行业统计</p>
               <p class="card-header-desc">展示不同行业的用户数量</p>
             </div>
             <v-chart class="chart" :option="industryChartOption" />
           </el-card>
         </el-col>
       </el-row>
-      <el-row :gutter="20" class="mgb20">
-        <el-col :span="24">
-          <el-card shadow="hover">
-            <div class="card-header">
-              <p class="card-header-title">查询用户信息</p>
-              <p class="card-header-desc">通过用户名称查询用户信息</p>
-            </div>
-            <div class="search-section">
-              <el-input
-                v-model="searchTerm"
-                placeholder="输入用户名称进行搜索"
-              ></el-input>
-              <el-button type="primary" @click="searchCustomers">搜索</el-button>
-            </div>
-            <div v-if="loading">加载中...</div>
-            <div v-if="search_error" class="error">{{ Search_error }}</div>
-            <el-table v-if="customers.length > 0" :data="customers" style="width: 100%">
-              <el-table-column prop="customer_id" label="用户ID"></el-table-column>
-              <el-table-column prop="customer_name" label="用户名称"></el-table-column>
-              <el-table-column prop="username" label="用户名"></el-table-column>
-              <el-table-column
-                prop="industry_classification"
-                label="行业分类"
-              ></el-table-column>
-              <el-table-column
-                prop="region_classification"
-                label="地区分类"
-              ></el-table-column>
-              <el-table-column prop="credit_rating" label="信用评级"></el-table-column>
-              <el-table-column prop="group" label="用户组"></el-table-column>
-              <el-table-column prop="external_rating" label="外部评级"></el-table-column>
-            </el-table>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20" class="mgb20">
-        <el-col :span="24">
-          <el-card shadow="hover">
-            <div class="card-header">
-              <p class="card-header-title">删除违约记录</p>
-              <p class="card-header-desc">通过违约申请记录ID删除记录</p>
-            </div>
-            <div class="delete-section">
-              <el-input v-model="deleteId" placeholder="输入违约申请记录ID"></el-input>
-              <el-button type="danger" @click="deleteDefaultApplication"
-                >删除记录</el-button
-              >
-            </div>
-            <div v-if="deleteLoading">删除中...</div>
-            <div v-if="deleteError" class="error">{{ deleteError }}</div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20" class="mgb20">
-        <el-col :span="24">
-          <el-card shadow="hover">
-            <div class="card-header">
-              <p class="card-header-title">审核违约重生申请</p>
-            </div>
-            <div class="review-section">
-              <el-button @click="fetchPendingRebirths">加载待审核申请</el-button>
-              <div v-if="loading">加载中...</div>
-              <div v-if="error" class="error">{{ error }}</div>
-              <el-table
-                v-if="pendingRebirths.length > 0"
-                :data="pendingRebirths"
-                style="width: 100%"
-              >
-                <el-table-column prop="id" label="申请ID"></el-table-column>
-                <el-table-column prop="customer_id" label="客户ID"></el-table-column>
-                <el-table-column prop="default_id" label="违约ID"></el-table-column>
-                <el-table-column prop="audit_status" label="审核状态"></el-table-column>
-                <el-table-column label="操作">
-                  <template #default="{ row }">
-                    <el-button type="success" @click="submitReview(row.id, 1)"
-                      >通过</el-button
-                    >
-                    <el-button type="danger" @click="submitReview(row.id, 2)"
-                      >驳回</el-button
-                    >
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+      <lineChart></lineChart>
     </template>
     <template v-else>
-
-    <el-card shadow="always" :body-style="{ padding: '20px' }">
-    <template #header>
-    <div>
-    <span>{{wenhou +',' +  username}}</span>
-    </div>
-    </template>
-    欢迎来到违约客户管理系统
-    </el-card>
-    
-        
+      <el-card shadow="always" :body-style="{ padding: '20px' }">
+        <template #header>
+          <div>
+            <span>{{ wenhou + "," + username }}</span>
+          </div>
+        </template>
+        欢迎来到违约客户管理系统
+      </el-card>
     </template>
   </div>
 </template>
@@ -130,7 +49,7 @@ import { ref, onMounted } from "vue";
 import countup from "@/components/countup.vue";
 import axios from "axios";
 import { use, registerMap } from "echarts/core";
-import { PieChart } from "echarts/charts";
+import { LineChart, PieChart } from "echarts/charts";
 import {
   GridComponent,
   TooltipComponent,
@@ -143,8 +62,9 @@ import { dashOpt1, dashOpt2, mapOptions } from "./chart/options";
 import chinaMap from "@/utils/china";
 import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
-import {time} from "@/utils/time";
-const username: string | null = localStorage.getItem('vuems_name');
+import { time } from "@/utils/time";
+import lineChart from "@/views/chart/line-chart.vue";
+const username: string | null = localStorage.getItem("vuems_name");
 let wenhou = time();
 use([
   CanvasRenderer,
@@ -156,7 +76,7 @@ use([
 ]);
 
 // 注册中国地图
-registerMap("china", chinaMap);
+// registerMap("china", chinaMap);
 
 // 定义饼状图的响应式数据
 const regionChartOption = ref({});
