@@ -1,13 +1,13 @@
 <template>
   <div class="search-default-applications">
-    <el-card shadow="hover"> 
-      <h2 style="margin-bottom: 20px">查询违约记录信息</h2>
+    
+      <h2 style="margin-bottom: 20px">查询课题信息</h2>
 
       <!-- 查询输入框 -->
       <div class="search-section">
         <el-input
           v-model="searchTerm"
-          placeholder="输入用户名称进行搜索"
+          placeholder="输入老师名称进行搜索"
           style="width: 300px"
         />
         <el-button type="primary" @click="searchApplications" style="margin-left: 10px">
@@ -22,14 +22,14 @@
         style="width: 100%"
         class="mt-4"
       >
-        <el-table-column prop="id" label="违约ID" width="80" />
-        <el-table-column prop="customer_id" label="用户ID" width="80" />
-        <el-table-column prop="customer_name" label="客户名称" />
-        <el-table-column prop="username" label="用户名" />
-        <el-table-column prop="severity" label="严重性" />
-        <el-table-column prop="remarks" label="备注" />
-        <el-table-column prop="application_time" label="申请时间" />
-        <el-table-column prop="audit_status" label="审核状态">
+        <el-table-column prop="id" label="课程ID" width="80" />
+        <el-table-column prop="teacherName" label="指导老师姓名" width="80" />
+        <el-table-column prop="researchInstitute" label="指导老师院系" />
+        <el-table-column prop="education" label="指导老师学历" />
+        <el-table-column prop="age" label="年龄" />
+        <el-table-column prop="targetMajor" label="专业" />
+        <el-table-column prop="contactInfo" label="联系方式" />
+        <!-- <el-table-column prop="thesisTitle" label="审核状态">
           <template #default="scope">
             <span v-if="scope.row.audit_status === 0">未审核</span>
             <span v-else-if="scope.row.audit_status === 1" style="color: green;">已通过</span>
@@ -42,18 +42,18 @@
             <span v-else-if="scope.row.default_status === 2"  style="color: green;">已重生</span>
             <span v-else-if="scope.row.default_status === 1" style="color: red;">已拒绝</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
 
       <!-- 无记录显示 -->
       <el-empty
         v-if="applications.length === 0 && !loading"
-        description="无违约记录"
+        description="无课题记录"
       ></el-empty>
 
       <!-- 加载中提示 -->
       <div v-if="loading" class="loading">加载中...</div>
-    </el-card>
+    
   </div>
 </template>
 
@@ -61,7 +61,7 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-
+import service from "@/utils/request";
 // 搜索框输入内容
 const searchTerm = ref("");
 
@@ -71,29 +71,25 @@ const applications = ref([]);
 // 加载状态
 const loading = ref(false);
 
-// 查询违约记录信息
+
 const searchApplications = async () => {
   loading.value = true;
   try {
-    const response = await axios.get(
-      "http://127.0.0.1:5000/default_applications/search",
-      {
-        params: {
-          customer_name: searchTerm.value.trim(), // 去除前后空白
-        },
-      }
-    );
-
+    const {data:response} = await service.get('/api/thesis',{
+      params:{teacherName:searchTerm.value}
+    })
+    
     // 如果返回消息
-    if (response.data.message) {
+    if (response.code === 200) {
+      applications.value = response.data;
+      ElMessage.success('查询成功');
+    } else {
+     
       ElMessage.info(response.data.message);
       applications.value = [];
-    } else {
-      applications.value = response.data;
     }
   } catch (error) {
     ElMessage.error("查询失败，请稍后再试");
-    console.error(error);
   } finally {
     loading.value = false;
   }
@@ -107,7 +103,7 @@ onMounted(() => {
 
 <style scoped>
 .search-default-applications {
-  padding: 20px;
+  
 }
 .search-section {
   display: flex;

@@ -7,7 +7,7 @@
             <span>{{ wenhou + "," + username }}</span>
           </div>
         </template>
-        欢迎来到违约客户管理系统
+        欢迎来到毕业设计管理系统
       </el-card>
       <el-row :gutter="20" class="mgb20">
         <el-col :span="12">
@@ -35,10 +35,10 @@
       <el-card shadow="always" :body-style="{ padding: '20px' }">
         <template #header>
           <div>
-            <span>{{ wenhou + "," + username }}</span>
+            <span>{{ wenhou + "," + userStore.username }}</span>
           </div>
         </template>
-        欢迎来到违约客户管理系统
+        欢迎来到毕业设计管理系统
       </el-card>
     </template>
   </div>
@@ -58,8 +58,6 @@ import {
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
-import { dashOpt1, dashOpt2, mapOptions } from "./chart/options";
-import chinaMap from "@/utils/china";
 import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
 import { time } from "@/utils/time";

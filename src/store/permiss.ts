@@ -7,56 +7,19 @@ interface ObjectList {
 export const usePermissStore = defineStore('permiss', {
     state: () => {
         const defaultList: ObjectList = {
-            admin: [
+            manager: [
                 '0',
-                '1',
-                '100',
-                '101',
-                '102',
-                '103',
-                '104',
-                '105',
-                // '11',
-                // '11',
-                // '12',
-                // '13',
-                // '2',
-                // '21',
-                // '22',
-                // '23',
-                // '24',
-                // '25',
-                // '26',
-                // '27',
-                // '28',
-                // '29',
-                // '291',
-                // '292',
-                // '3',
-                // '31',
-                // '32',
-                // '33',
-                // '34',
-                // '4',
-                // '41',
-                // '42',
-                // '5',
-                // '7',
-                // '6',
-                // '61',
-                // '62',
-                // '63',
-                // '64',
-                // '65',
-                // '66',
-                // ''
+                '901',
+        
             ],
             user: ['0', '100','5','105'],
+            student:['0','902'],
+            teacher:['0','900'],
         };
-        const username = localStorage.getItem('vuems_name');
-        console.log(username);
+        const userrole = localStorage.getItem('role');
+      
         return {
-            key: (username == 'admin' ? defaultList.admin : defaultList.user) as string[],
+            key:  (userrole ? defaultList[userrole] : defaultList.user),
             defaultList,
         };
     },

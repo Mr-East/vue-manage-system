@@ -6,6 +6,7 @@ interface UserState {
   user_id: string;
   username: string;
   isAuthenticated: boolean;
+  role: string;
 }
 
 export const useUserStore = defineStore("user", {
@@ -13,6 +14,7 @@ export const useUserStore = defineStore("user", {
     user_id: '',
     username: "",
     isAuthenticated: false,
+    role: "",
   }),
   actions: {
     // 登录操作

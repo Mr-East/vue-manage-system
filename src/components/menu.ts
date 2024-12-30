@@ -8,6 +8,24 @@ export const menuData: Menus[] = [
         icon: 'Odometer',
     },
     {
+        id: '900',
+        title: '申请课题',
+        index: '/course-request',
+        icon: 'Odometer',
+    },
+    {
+        id: '901',
+        title: '课题审核',
+        index: '/course-review',
+        icon: 'Odometer',
+    },
+    {
+        id: '902',
+        title: '学生选题',
+        index: '/course-select',
+        icon: 'Odometer',
+    },
+    {
         id: '1',
         title: '系统管理',
         index: '1',

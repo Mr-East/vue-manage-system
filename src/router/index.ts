@@ -33,6 +33,33 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/default-report.vue'),
             },
             {
+                path:'/course-request',
+                name:'course-request',
+                meta:{
+                    title:'申请课题',
+                    permiss:'900',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/course/course-request.vue'),
+            },
+            {
+                path:'/course-review',
+                name:'course-review',
+                meta:{
+                    title:'课题审核',
+                    permiss:'901',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/course/course-review.vue'),
+            },
+            {
+                path:'/course-select',
+                name:'course-select',
+                meta:{
+                    title:'学生选题',
+                    permiss:'902',
+                },
+                component: () => import(/* webpackChunkName: "default-report" */ '../views/pages/course/course-select.vue'),
+            },
+            {
                 path:'/default-reason-management',
                 name:'default-reason-management',
                 meta:{
@@ -327,7 +354,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    const role = localStorage.getItem('vuems_name');
+    const role = localStorage.getItem('role');
     const permiss = usePermissStore();
 
     if (!role && to.meta.noAuth !== true) {

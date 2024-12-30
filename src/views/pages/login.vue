@@ -3,7 +3,7 @@
     <div class="login-container">
       <div class="login-header">
         <img class="logo mr10" src="../../assets/img/logo.svg" alt="" />
-        <div class="login-title">后台管理系统</div>
+        <div class="login-title">毕业设计管理系统</div>
       </div>
       <el-form :model="param" :rules="rules" ref="login" size="large">
         <el-form-item prop="username">
@@ -29,11 +29,23 @@
             </template>
           </el-input>
         </el-form-item>
-
-        <!-- <div class="pwd-tips"> -->
-        <!-- <el-checkbox class="pwd-checkbox" v-model="checked" label="记住密码" />
-          <el-link type="primary" @click="$router.push('/reset-pwd')">忘记密码</el-link>
-        </div> -->
+        <el-form-item prop="role" label="角色" label-width="55px">
+          <el-select
+            v-model="param.role"
+            placeholder="请选择角色"
+            size="large"
+            style="width: 240px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+         
+        </el-form-item>
+        
         <el-button
           class="login-btn"
           type="primary"
@@ -59,10 +71,11 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
 import service from "@/utils/request";
-import {useUserStore} from "@/store/user";
+import { useUserStore } from "@/store/user";
 interface LoginInfo {
   username: string;
   password: string;
+  role: string;
 }
 const userStore = useUserStore();
 const lgStr = localStorage.getItem("login-param");
@@ -73,8 +86,13 @@ const router = useRouter();
 const param = reactive<LoginInfo>({
   username: defParam ? defParam.username : "",
   password: defParam ? defParam.password : "",
+  role: defParam ? defParam.role : "",
 });
-
+const options = [
+  { value: "student", label: "学生" },
+  { value: "teacher", label: "教师" },
+  { value: "manager", label: "管理员" },
+];
 const rules: FormRules = {
   username: [
     {
@@ -91,36 +109,25 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
-      // ElMessage.success("登录成功");
-      //     localStorage.setItem("vuems_name", param.username);
-      //     const keys =
-      //       permiss.defaultList[param.username == "admin" ? "admin" : "user"];
-      //     permiss.handleSet(keys);
-      //     router.push("/");
       service
         .post("/api/login", param)
         .then((res) => {
-          if (res.data.code == 200) {
+          if (res.status == 200) {
             ElMessage.success("登录成功");
-            localStorage.setItem("vuems_name", res.data.username);
-            localStorage.setItem("user_id", res.data.user_id);
-            const keys =
-              permiss.defaultList[param.username == "admin" ? "admin" : "user"];
+            const result = res.data;
+         
+            localStorage.setItem("role", result.data.role);
+            const keys = permiss.defaultList[result.data.role];
             permiss.handleSet(keys);
-           
-            userStore.username = res.data.username;
+            userStore.user_id = result.data.id;
+            userStore.username = result.data.name;
+            userStore.role = result.data.role;
             router.push("/");
           }
         })
         .catch((error) => {
           ElMessage.error(error.message);
         });
-
-      // if (checked.value) {
-      //     localStorage.setItem('login-param', JSON.stringify(param));
-      // } else {
-      //     localStorage.removeItem('login-param');
-      // }
     } else {
       ElMessage.error("登录失败");
       return false;

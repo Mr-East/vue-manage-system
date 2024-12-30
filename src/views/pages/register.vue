@@ -3,90 +3,47 @@
     <div class="login-container">
       <div class="login-header">
         <img class="logo mr10" src="../../assets/img/logo.svg" alt="" />
-        <div class="login-title">后台管理系统</div>
+        <div class="login-title">毕业设计管理系统</div>
       </div>
       <el-form :model="param" :rules="rules" ref="register" size="large">
-        <el-form-item
-          prop="customer_name"
-          label="顾客名"
-          label-position="left"
-          label-width="80px"
-        >
-          <el-input v-model="param.customer_name" placeholder="顾客名">
-            <template #prefix>
-              <el-icon>
-                <Message />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="username" label="用户名" label-width="80px">
-          <el-input v-model="param.username" placeholder="用户名">
-            <template #prefix>
+        <el-form-item prop="username">
+          <el-input v-model="param.username" placeholder="请输入账号">
+            <template #prepend>
               <el-icon>
                 <User />
               </el-icon>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="industry_classification" label="行业名" label-width="80px">
-          <el-input v-model="param.industry_classification" placeholder="行业名">
-            <template #prefix>
-              <el-icon>
-                <User />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="region_classification" label="隶属地" label-width="80px">
-          <el-input v-model="param.region_classification" placeholder="隶属地 ">
-            <template #prefix>
-              <el-icon>
-                <User />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="external_rating" label="外部评级" label-width="80px">
-          <el-input v-model="param.external_rating" placeholder="外部评级">
-            <template #prefix>
-              <el-icon>
-                <User />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="组织" label-width="80px">
-          <el-input v-model="param.group" placeholder="组织">
-            <template #prefix>
-              <el-icon>
-                <User />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="信用评级" label-width="80px">
-          <el-input v-model="param.credit_rating" placeholder="信用评级">
-            <template #prefix>
-              <el-icon>
-                <User />
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password" label="密码" label-width="80px">
+        <el-form-item prop="password">
           <el-input
             type="password"
-            placeholder="密码"
+            placeholder="请输入密码"
             v-model="param.password"
             @keyup.enter="submitForm(register)"
           >
-            <template #prefix>
+            <template #prepend>
               <el-icon>
                 <Lock />
               </el-icon>
             </template>
           </el-input>
+        </el-form-item>
+        <el-form-item prop="role" label="角色" label-width="55px">
+          <el-select
+            v-model="param.role"
+            placeholder="请选择角色"
+            size="large"
+            style="width: 240px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+         
         </el-form-item>
         <el-button
           class="login-btn"
@@ -112,17 +69,16 @@ import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { Register } from '@/types/user';
 import service from '@/utils/request';
 const router = useRouter();
-const param = reactive<Register>({
-    customer_name:'',
+const param = reactive<any>({
     username: '',
     password: '',
-    industry_classification:'',
-    region_classification:'',
-    external_rating:'',
-    credit_rating:'',
-    group:'',
+    role:'',
     });
-
+const options = [
+  { value: "student", label: "学生" },
+  { value: "teacher", label: "教师" },
+  { value: "manager", label: "管理员" },
+];
 const rules: FormRules = {
     username: [
         {
@@ -132,6 +88,7 @@ const rules: FormRules = {
         },
     ],
     password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    role: [{ required: false, message: '请输入角色', trigger: 'blur' }],
     customer_name: [{ required: true, message: '请输入顾客名', trigger: 'blur' }],
     industry_classification: [{ required: true, message: '请输入行业', trigger: 'blur' }],
     region_classification: [{ required: true, message: '请输入隶属地', trigger: 'blur' }],
@@ -146,8 +103,9 @@ const register = ref<FormInstance>();
         if (valid) {
             service.post('/api/register', param)
             .then((res) => {
+              console.log(res);
               
-                if (res.data.code === 200) {
+                if (res.status === 201) {
                     ElMessage.success('注册成功，请登录');
                     router.push('/login');
                 } else {
@@ -157,12 +115,17 @@ const register = ref<FormInstance>();
             .catch((error) => {
                 console.error('请求失败：', error);
                 // 检查响应存在，并处理400错误
+
                 if (error.message) {
                     // 显示从后端返回的具体错误消息
                     ElMessage.error(error.message || '注册失败，请求错误！');
                 } else {
                     // 如果没有响应信息，可能是网络或其他问题
-                    ElMessage.error('网络错误或请求未发送成功！');
+                    if(error.status === 201){
+                      ElMessage.success('注册成功，请登录');
+                      router.push('/login');
+                    }
+                    
                 }
             });
 
